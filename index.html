@@ -4,21 +4,29 @@
 
 <head>
     <title></title>
+    <style type="text/css">
+        .color-red { color: red; }
+        .color-blue { color: blue; }
+        .is-loading { background: indianred; }
+    </style>
 </head>
 
 <body>
 
     <div id="root">
+        <h1 v-bind:class="className">Hello there!</h1>
+        <button v-bind:disabled="disabled" v-bind:class="{ 'is-loading': isLoading }" v-on:click="toggleClass" v-text="buttonName"></button>
+
         <ul>
             <li v-for="name in names">{{name}}</li>
         </ul>
 
         <input id="input" type="text" v-model="newName">
-        <button v-on:click="addName">Add name</button>
+        <button v-bind:title="nice" v-on:click="addName">Add name</button>
     </div>
 
     <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
-    
+
     <script>
 
         var app = new Vue({
@@ -26,13 +34,23 @@
 
             data: {
                 newName: "",
-                names: ["Harry","Mary","Jane","Jesse"]
+                names: ["Harry","Mary","Jane","Jesse"],
+                className: "color-red",
+                isLoading: false,
+                disabled: false,
+                buttonName: "Toggle me!"
             },
 
             methods: {
                 addName() {
                     this.names.push(this.newName);
                     this.newName = "";
+                },
+
+                toggleClass() {
+                    this.isLoading = !this.isLoading;
+                    this.disabled = true;
+                    this.buttonName = "I have been toggled!"
                 }
             }
         })
