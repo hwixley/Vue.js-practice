@@ -1,0 +1,78 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+    <title></title>
+    <style type="text/css">
+        .incomplete { background: red; }
+        .complete { background: green; }
+    </style>
+</head>
+
+<body>
+
+    <div id="root">
+
+        <h1> {{reverseText()}} </h1>
+
+        <h2>All tasks:</h2>
+        <ul>
+            <li v-for="task in tasks">
+                {{task.description}}
+                <button v-bind:class="{'complete': task.completed, 'incomplete': !task.completed}" v-on:click="task.completed = !task.completed;" v-text="toggleButton(task.completed)"></button>
+            </li>
+        </ul>
+
+        <h3>Complete tasks:</h3>
+        <ul>
+            <li v-for="task in tasks" v-if="task.completed" v-text="task.description"></li>
+        </ul>
+
+        <h3>Incomplete tasks:</h3>
+        <ul>
+            <li v-for="task in incompleteTasks()" v-text="task.description"></li>
+        </ul>
+
+    </div>
+
+    <script src="https://unpkg.com/vue@2.1.3/dist/vue.js"></script>
+
+    <script>
+        var app = new Vue({
+            el:"#root",
+
+            data: {
+                message: "This is backwards",
+                tasks: [
+                    {description: "Clean house", completed: false},
+                    {description: "Go to the supermarket", completed: true},
+                    {description: "Read emails", completed: false},
+                    {description: "Make dinner", completed: false},
+                    {description: "Be a coding legend", completed: true}
+                ]
+            },
+
+            methods: {
+                reverseText() {
+                    return this.message.split('').reverse().join('');
+                },
+
+                incompleteTasks() {
+                    return this.tasks.filter(task => !task.completed);
+                },
+
+                toggleButton(completed) {
+                    if (completed) {
+                        return "Completed!"
+                    } else {
+                        return "Not completed"
+                    }
+                }
+            }
+        })
+    </script>
+
+</body>
+
+</html>
